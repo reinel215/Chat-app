@@ -1,0 +1,91 @@
+.joinOuterContainer {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    padding: 50px;
+}
+
+.joinInnerContainer {
+    color: white;
+    opacity: 0.9;
+    background-color: #373534;
+    border-radius: 10px;
+    -webkit-box-shadow: 7px 6px 14px 0px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 7px 6px 14px 0px rgba(0, 0, 0, 0.75);
+    box-shadow: 7px 6px 14px 0px rgba(0, 0, 0, 0.75);
+
+    width: 70%;
+    max-width: 500px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+
+    padding: 15px;
+
+}
+
+
+
+.form-join {
+
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+
+    height: 160px;
+
+    width: 70%;
+
+}
+
+
+
+.link-join{
+
+    margin-top: 20px;
+
+}
+
+
+
+
+.MuiFormControl-root{
+
+    color: white;
+} 
+
+.MuiFormControl-root .MuiFormLabel-root{
+    color: white;
+}
+
+.MuiFormControl-root .MuiInputBase-root .MuiInputBase-input {
+
+    color: white;
+}
+
+
+.MuiFormControl-root .MuiOutlinedInput-notchedOutline{
+
+    border-color: white;
+
+}
+
+.MuiFormControl-root .MuiOutlinedInput-notchedOutline:hover{
+
+    border-color: white;
+
+}
+
+
+
+
+.MuiFormControl-root .MuiInputBase-root .MuiInputBase-input{
+
+    color: white;
+
+}

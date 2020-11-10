@@ -1,0 +1,11 @@
+body {
+    background-image: url("https://image.freepik.com/vector-gratis/concepto-fondo-abstracto_23-2148497710.jpg");
+    background-color: #cccccc;
+    background-size: cover;
+}
+
+
+
+*{
+    font-family: 'Roboto', sans-serif;
+}
