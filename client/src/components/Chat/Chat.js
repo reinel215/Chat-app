@@ -1,9 +1,21 @@
-import React,{ useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import queryString from 'query-string';
 import io from 'socket.io-client'
 
+import "./Chat.css";
 
-import Infobar from "../Infobar/Infobar";
+
+
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import Fab from '@material-ui/core/Fab';
+import SendIcon from '@material-ui/icons/Send';
+
+import MessageBox from "../MessageBox/MessageBox";
+
 
 let socket;
 
@@ -11,7 +23,7 @@ let socket;
 
 
 
-const Chat = ( {location} ) => {
+const Chat = ({ location }) => {
 
 
     const [name, setName] = useState('');
@@ -20,8 +32,8 @@ const Chat = ( {location} ) => {
     const [messages, setmessages] = useState([]);
 
 
-    useEffect( () => {
-        const {name , room} = queryString.parse(location.search);
+    useEffect(() => {
+        const { name, room } = queryString.parse(location.search);
 
         socket = io('http://localhost:3001/');
 
@@ -29,11 +41,11 @@ const Chat = ( {location} ) => {
         setRoom(room);
 
 
-        socket.emit('join' , { name , room }, () => {});
+        socket.emit('join', { name, room }, () => { });
 
 
         return () => {
-            //socket.emit('disconnect');
+            socket.emit('out');
             socket.off();
         }
 
@@ -41,15 +53,15 @@ const Chat = ( {location} ) => {
     }, [location.search])
 
 
-    useEffect( () => {
+    useEffect(() => {
 
         socket.on('message', (message) => {
 
-            setmessages([...messages,message]);
+            setmessages([...messages, message]);
 
         });
 
-    } , [messages]);
+    }, [messages]);
 
 
 
@@ -57,9 +69,9 @@ const Chat = ( {location} ) => {
 
         event.preventDefault();
 
-        if(message){
+        if (message) {
 
-            socket.emit('sendMessage', message , () => setmessage('') );
+            socket.emit('sendMessage', message, () => setmessage(''));
 
         }
 
@@ -67,20 +79,57 @@ const Chat = ( {location} ) => {
 
     console.log(messages);
 
-    return(
+    return (
 
         <div className="outerContainer">
 
             <div className="container">
 
-                <Infobar room={ room } />
+                <AppBar position="static">
+                    <Toolbar className="chatToolbar">
 
-                <input type="text" value={message} onChange={ event => { setmessage(event.target.value) } } 
-                
-                onKeyPress={ event =>  event.key==='Enter' ? sendMessage(event) : null  }
-                />
 
-                
+
+
+
+                        <h3 className="room-name"> {room} </h3>
+
+
+                        <IconButton className="ChatExitIcon" edge="end" color="inherit" aria-label="menu">
+                            <ExitToAppIcon />
+                        </IconButton>
+                    </Toolbar>
+                </AppBar>
+
+
+
+
+                <MessageBox>
+
+
+                </MessageBox>
+
+
+
+
+                <div className="chatSendMessageContainer" >
+
+
+                    <input placeholder="Send a message"  type="text" value={message} onChange={event => { setmessage(event.target.value) }}
+                        className="inputMessage"
+                        onKeyPress={event => event.key === 'Enter' ? sendMessage(event) : null}
+                    />
+
+
+                    <Fab className="sendButton" color="primary" aria-label="sned">
+                        <SendIcon />
+                    </Fab>
+
+
+                </div>
+
+
+
             </div>
 
         </div>

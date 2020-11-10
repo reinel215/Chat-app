@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, Redirect } from 'react-router-dom';
 import TextField from '@material-ui/core/TextField';
 import Button from "@material-ui/core/Button";
 
-import { lightBlue } from "@material-ui/core/colors";
 
-import { createMuiTheme, ThemeProvider, withStyles } from "@material-ui/core/styles";
+import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 
 
 import './join.css'
@@ -15,9 +14,9 @@ import './join.css'
 
 const theme = createMuiTheme({
 
-    palette : {
-        secondary : {
-            main : "#ffffff"
+    palette: {
+        secondary: {
+            main: "#ffffff"
         }
     }
 
@@ -26,17 +25,38 @@ const theme = createMuiTheme({
 
 
 
-const Join = () => {
+const Join = (props) => {
 
     const [name, setName] = useState('');
     const [room, setRoom] = useState('');
 
+    const [keyFlag, setKeyFlag] = useState(false);
+
+
+    useEffect( () => {
+        setKeyFlag(false);
+    } );
+
+
+    const goTo = () => {
+
+        if((name && room))
+        return <Redirect to={`/chat?name=${name}&room=${room}`}/>
+
+    }
+
 
     return (
 
-        <div className="joinOuterContainer">
+        
 
-            <div className="joinInnerContainer">
+        <div className="joinOuterContainer">
+            
+            {
+                keyFlag ? goTo() : null
+            }
+
+            <div className="joinInnerContainer" onKeyPress={event => event.key === 'Enter' ? setKeyFlag(true) : setKeyFlag(false)} >
                 <h1 className="heading"> JOIN TO A ROOM </h1>
 
                 <ThemeProvider theme={theme}>
@@ -49,7 +69,6 @@ const Join = () => {
                     <Link className="link-join" onClick={event => (!name || !room) ? event.preventDefault() : null} to={`/chat?name=${name}&room=${room}`}>
                         <Button color="secondary" variant="outlined" size="large" >Sign In</Button>
                     </Link>
-
 
                 </ThemeProvider>
 

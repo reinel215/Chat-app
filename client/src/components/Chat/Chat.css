@@ -1,0 +1,46 @@
+.outerContainer {
+    width: 80%;
+    max-width: 700px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.container {
+    background-image: url('https://img.freepik.com/vector-gratis/doodle-espacial_102902-2356.jpg?size=626&ext=jpg');
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    height: 500px;
+}
+
+.chatToolbar {
+    display: flex;
+    justify-content: space-between;
+}
+
+.chatSendMessageContainer {
+    display: flex;
+    width: 95%;
+    justify-content: space-between;
+    box-sizing: border-box;
+    margin-bottom: 5px;
+}
+
+.chatSendMessageContainer .inputMessage {
+    flex: 0 0 89%;
+    border-radius: 30px;
+    border: none;
+    background-color: #cbcbcb;
+    outline: none;
+    padding: 15px;
+}
+
+.inputMessage:hover {
+    border-color: blue;
+}
+
+.chatSendMessageContainer .sendButton {
+    flex: 0 0 9%;
+}
