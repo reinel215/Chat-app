@@ -17,6 +17,9 @@ import SendIcon from '@material-ui/icons/Send';
 import MessageBox from "../MessageBox/MessageBox";
 
 
+import MessageBubble from "../MessageBubble/MessageBubble";
+
+
 let socket;
 
 
@@ -106,6 +109,7 @@ const Chat = ({ location }) => {
 
                 <MessageBox>
 
+                    <MessageBubble></MessageBubble>
 
                 </MessageBox>
 

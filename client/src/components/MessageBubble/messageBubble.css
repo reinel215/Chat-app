@@ -1,0 +1,27 @@
+.BubbleContainer {
+    width: 300px;
+    margin: 50px auto;
+    padding: 20px;
+    text-align: center;
+    font-weight: 900;
+    color: #fff;
+    position: relative;
+
+    border-radius: 10px;
+
+    background: #00bfb6;
+}
+
+.left-side::before {
+    content: "";
+    width: 0px;
+    height: 0px;
+    position: absolute;
+    border-left: 10px solid transparent;
+    border-right: 10px solid #00bfb6;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+    left: -20px;
+
+
+}
