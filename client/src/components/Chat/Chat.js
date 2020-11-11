@@ -37,6 +37,7 @@ const Chat = ({ location }) => {
 
 
     useEffect(() => {
+        console.log("pase por el efecto");
         const { name, room } = queryString.parse(location.search);
 
         socket = io('http://localhost:3001/');
@@ -48,6 +49,7 @@ const Chat = ({ location }) => {
         socket.emit('join', { name, room }, () => { });
 
 
+
         return () => {
             socket.emit('out');
             socket.off();
@@ -57,15 +59,13 @@ const Chat = ({ location }) => {
     }, [location.search])
 
 
+
     useEffect(() => {
-
-        socket.on('message', (message) => {
-
-            setmessages([...messages, message]);
-
+        socket.on('message', message => {
+            setmessages(messages => [...messages, message]);
         });
+    }, [])
 
-    }, [messages]);
 
 
 
