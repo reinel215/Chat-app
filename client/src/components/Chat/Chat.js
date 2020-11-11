@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import queryString from 'query-string';
 import io from 'socket.io-client'
+import ReactEmoji from 'react-emoji';
 
 import "./Chat.css";
 
@@ -8,7 +10,6 @@ import "./Chat.css";
 
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import Fab from '@material-ui/core/Fab';
@@ -68,13 +69,13 @@ const Chat = ({ location }) => {
 
 
 
-    const sendMessage = (event) => {
+    const sendMessage = async (event) => {
 
         event.preventDefault();
 
         if (message) {
 
-            socket.emit('sendMessage', message, () => setmessage(''));
+            await socket.emit('sendMessage', message, () => setmessage(''));
 
         }
 
@@ -96,10 +97,11 @@ const Chat = ({ location }) => {
 
                         <h3 className="room-name"> {room} </h3>
 
-
-                        <IconButton className="ChatExitIcon" edge="end" color="inherit" aria-label="menu">
-                            <ExitToAppIcon />
-                        </IconButton>
+                        <Link to="/" className="Link">
+                            <IconButton className="ChatExitIcon" edge="end" color="inherit" aria-label="menu">
+                                <ExitToAppIcon />
+                            </IconButton>
+                        </Link>
                     </Toolbar>
                 </AppBar>
 
@@ -109,11 +111,17 @@ const Chat = ({ location }) => {
                 <MessageBox>
 
                     {
-                        messages.map( (message,i) =>{
-                            return(
-                            <MessageBubble key={i} user={message.user} >{message.text}</MessageBubble>
+                        messages.map((message, i) => {
+                            return (
+                                <MessageBubble
+                                    key={i}
+                                    user={message.user}
+                                    isCurrentUser={message.user === name}
+                                >
+                                    { ReactEmoji.emojify(message.text)}
+                                </MessageBubble>
                             )
-                        } )
+                        })
                     }
 
 
@@ -125,7 +133,7 @@ const Chat = ({ location }) => {
                 <div className="chatSendMessageContainer" >
 
 
-                    <input placeholder="Send a message"  type="text" value={message} onChange={event => { setmessage(event.target.value) }}
+                    <input placeholder="Send a message" type="text" value={message} onChange={event => { setmessage(event.target.value) }}
                         className="inputMessage"
                         onKeyPress={event => event.key === 'Enter' ? sendMessage(event) : null}
                     />

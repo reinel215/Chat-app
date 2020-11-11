@@ -5,15 +5,20 @@ import './messageBubble.css';
 
 
 
-const MessageBubble = ({children,user}) => {
+const MessageBubble = ({ children, user, isCurrentUser }) => {
 
 
+    return (
 
-    return(
-
-        <div className="BubbleContainer left-side">
+        <div className={'BubbleContainer ' + (isCurrentUser ? 'rightSide' : 'leftSide')}>
             <label className="BubbleUsername"> {user} </label>
-            {children}
+
+            <div className={"bubbleTextContainer " + (isCurrentUser ? 'blueColor' : 'greyColor') } >
+
+                {children}
+
+            </div>
+
         </div>
 
     );

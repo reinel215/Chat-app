@@ -18,7 +18,7 @@ const io = require('socket.io')(server, {
         methods: ["GET", "POST"],
         allowedHeaders: ["content-type"]
     }
-    
+
 
 });
 
@@ -54,21 +54,24 @@ io.on('connection', (socket) => {
 
 
 
-    socket.on('join', ( {name , room} , callback ) => {
+    socket.on('join', ({ name, room }, callback) => {
 
         try {
-            
+
             console.log();
 
-            let user = userService.addUser({ id:socket.id, name , room });
+            let user = userService.addUser({ id: socket.id, name, room });
             socket.join(user.room);
-            socket.emit('message', {user:'admin', text: `${user.name} welcome to the room:${user.room}`} );
+            socket.emit('message', { user: 'admin', text: `${user.name} welcome to the room:${user.room}` });
             socket.broadcast.to(user.room).emit('message', { user: 'admin', text: `${user.name} has join` });
+
+            io.to(user.room).emit('roomData', { room: user.room, users: userService.getUsersInRoom(user.room) });
+
 
             callback();
 
         } catch (err) {
-            
+
             console.error("hubo un error en 'join' agregando a un usario");
             console.error(err);
             callback(err.message);
@@ -78,12 +81,12 @@ io.on('connection', (socket) => {
     });
 
 
-    socket.on( 'sendMessage', (message, callback) => {
+    socket.on('sendMessage', (message, callback) => {
 
 
         const user = userService.getUser(socket.id);
 
-        io.to(user.room ).emit('message', { user: user.name, text: message } );
+        io.to(user.room).emit('message', { user: user.name, text: message });
 
         callback();
 
@@ -91,8 +94,19 @@ io.on('connection', (socket) => {
 
 
     socket.on('disconnect', () => {
+        try {
 
-        console.log("user have left");
+            const user = userService.removeUser(socket.id);
+            io.to(user.room).emit('message', { user: 'admin', text: `user: ${user.name} has left` });
+            io.to(user.room).emit('roomData', { room: user.room, users: userService.getUsersInRoom(user.room) });
+            console.log("user have left");
+
+
+        } catch (error) {
+
+            console.log(error);
+
+        }
 
     });
 
