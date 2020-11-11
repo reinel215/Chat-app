@@ -35,7 +35,7 @@ const Join = (props) => {
 
     useEffect( () => {
         setKeyFlag(false);
-    } );
+    }, [name,room] );
 
 
     const goTo = () => {

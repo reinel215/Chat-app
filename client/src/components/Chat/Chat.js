@@ -80,7 +80,6 @@ const Chat = ({ location }) => {
 
     }
 
-    console.log(messages);
 
     return (
 
@@ -109,7 +108,14 @@ const Chat = ({ location }) => {
 
                 <MessageBox>
 
-                    <MessageBubble></MessageBubble>
+                    {
+                        messages.map( (message,i) =>{
+                            return(
+                            <MessageBubble key={i} user={message.user} >{message.text}</MessageBubble>
+                            )
+                        } )
+                    }
+
 
                 </MessageBox>
 

@@ -6,10 +6,13 @@
     font-weight: 900;
     color: #fff;
     position: relative;
-
-    border-radius: 10px;
-
-    background: #00bfb6;
+    border-radius: 15px;
+    background: #3b9039;
+    display: flex;
+    align-items: center;
+    -webkit-box-shadow: 3px 3px 3px 0px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 3px 3px 3px 0px rgba(0, 0, 0, 0.75);
+    box-shadow: 3px 3px 3px 0px rgba(0, 0, 0, 0.75);
 }
 
 .left-side::before {
@@ -18,10 +21,17 @@
     height: 0px;
     position: absolute;
     border-left: 10px solid transparent;
-    border-right: 10px solid #00bfb6;
+    border-right: 10px solid #3b9039;
     border-top: 10px solid transparent;
     border-bottom: 10px solid transparent;
     left: -20px;
+}
 
-
+.BubbleUsername {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    font-size: smaller;
+    color: #e2e2e2;
+    margin-bottom: 10px;
 }

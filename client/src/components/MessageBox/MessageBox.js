@@ -1,22 +1,21 @@
 import React from "react";
 
+import ReactScrollToBottom from "react-scroll-to-bottom";
 
 import "./messageBox.css";
 
 
 
-const MessageBox = ({children}) => {
+const MessageBox = ({ children }) => {
 
 
-    return(
+    return (
 
-        <div className="MessageBoxContainer">
-
+        <ReactScrollToBottom className="MessageBoxContainer">
             {
                 children
             }
-
-        </div>
+        </ReactScrollToBottom>
 
     )
 

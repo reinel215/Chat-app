@@ -5,14 +5,15 @@ import './messageBubble.css';
 
 
 
-const MessageBubble = () => {
+const MessageBubble = ({children,user}) => {
 
 
 
     return(
 
         <div className="BubbleContainer left-side">
-            soy un mensaje
+            <label className="BubbleUsername"> {user} </label>
+            {children}
         </div>
 
     );
