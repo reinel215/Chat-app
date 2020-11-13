@@ -40,7 +40,7 @@ const Chat = ({ location }) => {
         console.log("pase por el efecto");
         const { name, room } = queryString.parse(location.search);
 
-        socket = io('http://localhost:3001/');
+        socket = io('http://localhost:4000/');
 
         setName(name);
         setRoom(room);
