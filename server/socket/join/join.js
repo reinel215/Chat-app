@@ -3,7 +3,7 @@ const userService = new UserService();
 
 
 
-const join = (socket) => {
+const join = (socket,io) => {
 
     socket.on('join', ({ name, room }, callback) => {
 
@@ -15,7 +15,7 @@ const join = (socket) => {
             socket.emit('message', { user: 'admin', text: `${user.name} welcome to the room:${user.room}` });
             socket.broadcast.to(user.room).emit('message', { user: 'admin', text: `${user.name} has join` });
 
-            socket.broadcast.to(user.room).emit('roomData', { room: user.room, users: userService.getUsersInRoom(user.room) });
+            io.to(user.room).emit('roomData', { room: user.room, users: userService.getUsersInRoom(user.room) });
 
 
             callback();

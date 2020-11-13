@@ -7,6 +7,16 @@ const userService = new UserService();
 
 //EVENTO JOIN
 const join = require('./join/join');
+//EVENTO SENDMESSAGE
+const sendMessage = require('./sendMessage/sendMessage');
+//EVENTO DISCONNECT
+const disconnect = require('./disconnect/disconnect');
+
+
+
+
+
+
 
 
 const socketConfig = (server) => {
@@ -35,38 +45,18 @@ const socketConfig = (server) => {
 
 
 
-        //EVENTO JOIN
-        join(socket);
+        //JOIN EVENT HANDLER
+        join(socket,io);
 
 
-        socket.on('sendMessage', (message, callback) => {
+        //SENDMESSAGE EVENT HANDLER
+        sendMessage(socket,io);
 
 
-            const user = userService.getUser(socket.id);
-
-            io.to(user.room).emit('message', { user: user.name, text: message });
-
-            callback();
-
-        });
+        //DISCONNECT EVENT HANDLER
+        disconnect(socket,io);
 
 
-        socket.on('disconnect', () => {
-            try {
-
-                const user = userService.removeUser(socket.id);
-                io.to(user.room).emit('message', { user: 'admin', text: `user: ${user.name} has left` });
-                io.to(user.room).emit('roomData', { room: user.room, users: userService.getUsersInRoom(user.room) });
-                console.log("user have left");
-
-
-            } catch (error) {
-
-                console.log(error);
-
-            }
-
-        });
 
     });
 
