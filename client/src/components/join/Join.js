@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import TextField from '@material-ui/core/TextField';
 import Button from "@material-ui/core/Button";
 
+import useRedirect from "../../hooks/useRedirect";
 
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 
@@ -27,18 +28,9 @@ const theme = createMuiTheme({
 
 const Join = (props) => {
 
-    const [name, setName] = useState('');
-    const [room, setRoom] = useState('');
-
-    const [keyFlag, setKeyFlag] = useState(false);
-
+    const [setFlag,redirect, setName, setRoom , name , room] = useRedirect();
 
     const inputName = useRef(null)
-
-
-    useEffect( () => {
-        setKeyFlag(false);
-    }, [name,room] );
 
 
 
@@ -46,13 +38,6 @@ const Join = (props) => {
         inputName.current.focus();
     } ,[])
 
-
-    const goTo = () => {
-
-        if((name && room))
-        return <Redirect to={`/chat?name=${name}&room=${room}`}/>
-
-    }
 
 
     return (
@@ -62,10 +47,10 @@ const Join = (props) => {
         <div className="joinOuterContainer">
             
             {
-                keyFlag ? goTo() : null
+                redirect(name,room)
             }
 
-            <div className="joinInnerContainer" onKeyPress={event => event.key === 'Enter' ? setKeyFlag(true) : setKeyFlag(false)} >
+            <div className="joinInnerContainer" onKeyPress={event => event.key === 'Enter' ? setFlag(true) : null} >
                 <h1 className="heading"> JOIN TO A ROOM </h1>
 
                 <ThemeProvider theme={theme}>
