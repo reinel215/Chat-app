@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import TextField from '@material-ui/core/TextField';
 import Button from "@material-ui/core/Button";
@@ -33,9 +33,18 @@ const Join = (props) => {
     const [keyFlag, setKeyFlag] = useState(false);
 
 
+    const inputName = useRef(null)
+
+
     useEffect( () => {
         setKeyFlag(false);
     }, [name,room] );
+
+
+
+    useEffect( () => {
+        inputName.current.focus();
+    } ,[])
 
 
     const goTo = () => {
@@ -62,7 +71,7 @@ const Join = (props) => {
                 <ThemeProvider theme={theme}>
 
                     <form className="form-join" noValidate autoComplete="off">
-                        <TextField className="join-input" id="name" label="Name" variant="outlined" onChange={(event) => setName(event.target.value)} />
+                        <TextField inputRef={inputName} className="join-input" id="name" label="Name" variant="outlined" onChange={(event) => setName(event.target.value)} />
                         <TextField className="join-input" id="room" label="Room" variant="outlined" onChange={(event) => setRoom(event.target.value)} />
                     </form>
 

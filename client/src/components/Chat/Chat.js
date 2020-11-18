@@ -1,13 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import queryString from 'query-string';
-import io from 'socket.io-client'
 import ReactEmoji from 'react-emoji';
 
+
+
+//import css
 import "./Chat.css";
 
 
-
+//import materials components
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
@@ -15,13 +16,17 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import Fab from '@material-ui/core/Fab';
 import SendIcon from '@material-ui/icons/Send';
 
+
+
+//imports other Componets
 import MessageBox from "../MessageBox/MessageBox";
-
-
 import MessageBubble from "../MessageBubble/MessageBubble";
 
 
-let socket;
+
+
+//import hooks
+import useSocket from "../../hooks/useSocket";
 
 
 
@@ -30,54 +35,29 @@ let socket;
 const Chat = ({ location }) => {
 
 
-    const [name, setName] = useState('');
-    const [room, setRoom] = useState('');
     const [message, setmessage] = useState('');
-    const [messages, setmessages] = useState([]);
 
+    const [{ name, room, messages }, sendMessage] = useSocket('localhost:4000',location.search);
 
-    useEffect(() => {
-        console.log("pase por el efecto");
-        const { name, room } = queryString.parse(location.search);
-
-        socket = io('http://localhost:4000/');
-
-        setName(name);
-        setRoom(room);
-
-
-        socket.emit('join', { name, room }, () => { });
+    const inputMessage = useRef(null);
 
 
 
-        return () => {
-            socket.emit('out');
-            socket.off();
-        }
+    useEffect( () =>{
 
+        inputMessage.current.focus();
 
-    }, [location.search])
-
-
-
-    useEffect(() => {
-        socket.on('message', message => {
-            setmessages(messages => [...messages, message]);
-        });
-    }, [])
+    },[]);
 
 
 
-
-    const sendMessage = async (event) => {
+    const handleSend = async (event) => {
 
         event.preventDefault();
 
-        if (message) {
+        sendMessage(message);
 
-            await socket.emit('sendMessage', message, () => setmessage(''));
-
-        }
+        setmessage('');
 
     }
 
@@ -135,11 +115,14 @@ const Chat = ({ location }) => {
 
                     <input placeholder="Send a message" type="text" value={message} onChange={event => { setmessage(event.target.value) }}
                         className="inputMessage"
-                        onKeyPress={event => event.key === 'Enter' ? sendMessage(event) : null}
+                        onKeyPress={event => event.key === 'Enter' ? handleSend(event) : null}
+                        ref={inputMessage}
                     />
 
 
-                    <Fab className="sendButton" color="primary" aria-label="sned">
+                    <Fab className="sendButton" color="primary" aria-label="sned"
+                        onClick={event => message ? handleSend(event) : null}
+                    >
                         <SendIcon />
                     </Fab>
 
